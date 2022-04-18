@@ -5,7 +5,8 @@ require "tilt/erubis"
 
 get '/' do
   "Getting started."
-  @content = Dir.glob("data/*.*")
+  files = Dir.glob("data/*.*")
+  @file_names = files.map { |file| File.basename(file) }.sort
 
   erb :home
 end

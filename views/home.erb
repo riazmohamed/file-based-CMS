@@ -1,9 +1,4 @@
-<% arr = [] %>
-<% @content.each do |file_name| %>
-    <% arr << File.basename(file_name) %>
-<% end %>
-
-<% arr.sort!.each do |name| %>
+<% @file_names.each do |name| %>
   <ul>
     <li><%= name %></li>
   </ul>
