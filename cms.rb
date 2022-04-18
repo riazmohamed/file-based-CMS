@@ -5,4 +5,7 @@ require "tilt/erubis"
 
 get '/' do
   "Getting started."
+  @content = Dir.glob("data/*.*")
+
+  erb :home
 end
