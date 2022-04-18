@@ -8,5 +8,5 @@ get '/' do
   files = Dir.glob("data/*.*")
   @file_names = files.map { |file| File.basename(file) }.sort
 
-  erb :home
+  erb :index
 end
