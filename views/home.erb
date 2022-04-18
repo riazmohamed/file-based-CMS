@@ -1,6 +1,6 @@
 <% arr = [] %>
 <% @content.each do |file_name| %>
-    <% arr << file_name.scan(/[a-z]+\..*+/).first %>
+    <% arr << File.basename(file_name) %>
 <% end %>
 
 <% arr.sort!.each do |name| %>
