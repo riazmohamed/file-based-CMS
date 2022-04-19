@@ -44,6 +44,28 @@ get "/" do
   erb :index
 end
 
+# New document form
+get "/new" do
+  erb :new
+end
+
+post "/create" do
+  filename = params[:filename].to_s
+
+  if filename.size == 0 || !filename.match(/(\.txt)|(\.md)/)
+    session[:message] = "A name is required with extension '.txt' or '.md'."
+    status 422
+    erb :new
+  else
+    file_path = File.join(data_path, filename)
+
+    File.write(file_path, "")
+    session[:message] = "#{params[:filename]} has been created."
+
+    redirect "/"
+  end
+end
+
 # View a single file in the list
 get "/:filename" do
   file_path = File.join(data_path, params[:filename])
