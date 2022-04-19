@@ -34,6 +34,7 @@ get "/" do
   erb :index
 end
 
+# View a single file in the list
 get "/:filename" do
   file_path = root + "/data/" + params[:filename]
 
