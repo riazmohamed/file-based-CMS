@@ -36,6 +36,18 @@ def data_path
   end
 end
 
+# Check if the user is signed in?
+def user_signed_in?
+  session.key?(:username)
+end
+
+def require_signed_in_user
+  unless user_signed_in?
+    session[:message] = "You must be signed in to do that."
+    redirect "/"
+  end
+end
+
 get "/" do
   pattern = File.join(data_path, "*")
   @files = Dir.glob(pattern).map do |path|
@@ -46,14 +58,18 @@ end
 
 # New document form
 get "/new" do
+  require_signed_in_user
+
   erb :new
 end
 
 post "/create" do
+  require_signed_in_user
+
   filename = params[:filename].to_s
 
-  if filename.size == 0 || !filename.match(/(\.txt)|(\.md)/)
-    session[:message] = "A name is required with extension '.txt' or '.md'."
+  if filename.size == 0
+    session[:message] = "A name is required."
     status 422
     erb :new
   else
@@ -80,6 +96,8 @@ end
 
 # Edit document content
 get "/:filename/edit" do
+  require_signed_in_user
+
   file_path = File.join(data_path, params[:filename])
 
   @filename = params[:filename]
@@ -90,6 +108,8 @@ end
 
 # Update document content
 post "/:filename" do
+  require_signed_in_user
+
   file_path = File.join(data_path, params[:filename])
 
   File.write(file_path, params[:content])
@@ -100,6 +120,8 @@ end
 
 # Delete existing documents
 post "/:filename/delete" do
+  require_signed_in_user
+
   file_path = File.join(data_path, params[:filename])
 
   File.delete(file_path)
