@@ -9,12 +9,6 @@ configure do
   set :session_secret, 'super secret'
 end
 
-helpers do
-  def session
-    last_request.env["rack.session"]
-  end
-end
-
 root = File.expand_path("..", __FILE__)
 
 def render_markdown(text)
